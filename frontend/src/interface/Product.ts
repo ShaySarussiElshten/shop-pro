@@ -3,5 +3,7 @@
 export type  Product = {
     name: string
     id:number
-    role:string
+    img:string
+    description:string
+    price:number
 }
