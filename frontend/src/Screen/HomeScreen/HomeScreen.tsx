@@ -4,21 +4,17 @@ import axios from 'axios'
 import { BACKEND_URL } from '../../constants/urls'
 import TextField from '@mui/material/TextField';
 import Styled from './HomeScreen.style'
+import useFetch from '../../hooks/useFetch';
+import Spinner from '../../Components/Form/Spinner/Spinner';
 
 const HomeScreen = () => {
   
+  const {data:products,isLoading} = useFetch({
+    method: 'get',
+    url:`${BACKEND_URL}/products`
+  })
 
-  const [products,setProducts] = useState<Product[]>([])
   
-  useEffect(()=>{
-     const fetData =async()=>{
-          const {data} = await axios.get(`${BACKEND_URL}/products`)
-          setProducts(data)
-     }
-
-     fetData()
-  },[])
-
   const renderProducts = ()=> (
     products.map((product:Product) => {
           const {id,name,img,description,price} =product
@@ -46,10 +42,16 @@ const HomeScreen = () => {
 
   return (
     <>
-      <div className="flex">
-        {renderProducts()}
-      </div>
-      <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+       {isLoading ? 
+         <Spinner />
+       :
+       <>
+         <div className="flex">
+          {renderProducts()}
+        </div>
+        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+        </>
+       }
     </>
   );
 }
