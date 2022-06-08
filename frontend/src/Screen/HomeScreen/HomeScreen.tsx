@@ -1,87 +1,46 @@
-import React, { useContext, useState } from 'react'
-import {PencilIcon,TrashIcon,PlusSmIcon}  from '@heroicons/react/solid'
-import {Person} from '../../interface/person'
-import { Link } from 'react-router-dom';
-import Context from '../../Context/context'
-import AppContext from '../../interface/AppContext'
-
+import React, { useContext, useEffect, useState } from 'react'
+import {Product} from '../../interface/Product'
+import axios from 'axios'
 
 
 const HomeScreen = () => {
+  
 
-   const {persons,setPersons} = useContext(Context) as AppContext;
-   
+  const [products,setProducts] = useState<Product[]>([])
+  
+  useEffect(()=>{
+     const fetData =async()=>{
+          const {data} = await axios.get('http://localhost:3001/products?_start=2&_end=4')
+          setProducts(data)
+     }
 
-    const removePerson=(id:string)=>{
-         const copyList = [...persons] 
-         const indexPersonToRemove = persons.findIndex((person:Person)=>(person.id == id))
-         copyList.splice(indexPersonToRemove,1)
-         setPersons(copyList)
-    }
+     fetData()
+  },[])
 
-    const renderCards = () =>{
-        return persons.map((person:Person) => (
-            
-            <li key={person.id} className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
-              <div className="w-full flex items-center justify-between p-6 space-x-6">
-                <div className="flex-1 truncate">
-                  <div className="flex items-center space-x-3">
-                    <h3 className="text-gray-900 text-sm font-medium truncate">{person.name}</h3>
-                    <span className="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-100 rounded-full">
-                      {person.role}
-                    </span>
-                  </div>
-                  <p className="mt-1 text-gray-500 text-sm truncate">{person.title}</p>
-                </div>
-                <img className="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0" src={person.imageUrl} alt="" />
-              </div>
-              <div>
-                <div className="-mt-px flex divide-x divide-gray-200">
-                  <div className="w-0 flex-1 flex">
-                    <div
-                      className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500"
-                      onClick={() => removePerson(person.id)}
-                    >
-                      <TrashIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
-                      <span className="ml-3">Remove</span>
-                    </div>
-                  </div>
-                  
-                  <div className="-ml-px w-0 flex-1 flex">
-                    <Link 
-                    to={`/edit/${person.id}`}
-                    className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500"
-                    >
-                      <PencilIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
-                      <span className="ml-3">Edit</span>
-                    </Link>
-                  </div>
-                 
-                </div>
-              </div>
-            </li>
-    
-          ))
-    }
+  const renderProducts = ()=> (
+    products.map((product:Product) => 
+          <div key={product.id} className="max-w-md py-4 px-8 bg-white shadow-lg rounded-lg my-20">
+          <div className="flex justify-center md:justify-end -mt-16">
+            <img className="w-20 h-20 object-cover rounded-full border-2 border-indigo-500" src="https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" />
+          </div>
+          <div>
+            <h2 className="text-gray-800 text-3xl font-semibold">Design Tools</h2>
+            <p className="mt-2 text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae dolores deserunt ea doloremque natus error, rerum quas odio quaerat nam ex commodi hic, suscipit in a veritatis pariatur minus consequuntur!</p>
+          </div>
+          <div className="flex justify-end mt-4">
+            <a href="#" className="text-xl font-medium text-indigo-500">John Doe</a>
+          </div>
+        </div>
+    )
+  )
 
   
+
   return (
     <>
-      <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        { renderCards() }
-      </ul>
-      <div className="flex justify-center items-center h-64">
-             <Link to={'/create'} >
-                <button
-                  type="button"
-                  className="inline-flex items-center px-6 h-14 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    ADD RECORD
-                </button>
-              </Link>
-      </div>
+      {renderProducts()}
     </>
-  )
+  );
 }
 
 export default HomeScreen
