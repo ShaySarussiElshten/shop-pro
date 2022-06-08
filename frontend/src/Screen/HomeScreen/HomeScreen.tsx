@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import {Product} from '../../interface/Product'
 import axios from 'axios'
 import { BACKEND_URL } from '../../constants/urls'
-
+import TextField from '@mui/material/TextField';
 
 const HomeScreen = () => {
   
@@ -41,14 +41,15 @@ const HomeScreen = () => {
   )
 
 
-  console.log(renderProducts())
 
-  
 
   return (
-    <div className="flex">
-       {renderProducts()}
-    </div>
+    <>
+      <div className="flex">
+        {renderProducts()}
+      </div>
+      <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+    </>
   );
 }
 
