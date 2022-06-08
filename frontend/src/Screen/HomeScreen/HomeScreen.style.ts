@@ -53,6 +53,18 @@ const PriceHeader = tw.span`
     text-indigo-500
 `
 
+
+// const LabelSideCss = styled.span`
+//       font-size:20px;
+//       font-family: 'Rubik';
+//       font-weight:400;
+// `;
+
+// const LabelSide = tw(LabelSideCss)`
+//      flex
+//      flex-col-reverse   
+// `;
+
 const Styled = {
     CardContainer,
     ImgWaraaper,
@@ -62,6 +74,7 @@ const Styled = {
     DescriptionText,
     BottemWaraaper,
     PriceHeader
+    
 }
 
 export default Styled
