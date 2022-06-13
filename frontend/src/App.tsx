@@ -7,6 +7,7 @@ import Router from './router/router'
 import {Person} from './interface/person';
 import Context from './Context/context'
 import AppContext from './interface/AppContext'
+import Navigation from './Components/Navigation/Navigation';
 
 
 
@@ -21,8 +22,9 @@ function App() {
   };
 
   return (
-     <Context.Provider value={personAction}>
+     <Context.Provider value={personAction}> 
           <BrowserRouter>
+               <Navigation/>
                <Router /> 
          </BrowserRouter>
      </Context.Provider> 

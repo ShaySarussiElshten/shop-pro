@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {Routes,Route,Navigate} from 'react-router-dom'
 import HomeScreen from '../Screen/HomeScreen/HomeScreen'
-
+import ProductScreen from '../Screen/ProductScreen/ProductScreen'
 
 
 
@@ -12,6 +12,7 @@ const Router = () => {
   return (
     <Routes>
           <Route path="/home" element={<HomeScreen />} />
+          <Route path="/product/:id" element={<ProductScreen />} />
           <Route path="*"  element={<Navigate to="/home" />} />
     </Routes>
   )

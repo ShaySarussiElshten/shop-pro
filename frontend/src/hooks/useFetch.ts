@@ -5,7 +5,7 @@ import { Config } from '../interface/Config';
 const useFetch = (config:Config) => {
   
   const {url} = config
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -18,9 +18,9 @@ const useFetch = (config:Config) => {
         const {data} = await axios(config);
 
         setData(data);
+        
       } catch (error) {
         setIsError(true);
-        setIsLoading(false)
       }finally{
         setIsLoading(false)
       }
