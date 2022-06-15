@@ -15,9 +15,9 @@ const useFetch = (config:Config) => {
       setIsLoading(true);
 
       try {
-        const {data} = await axios(config);
+        const {data:dataFromAxios} = await axios(config);
 
-        setData(data);
+        setData(dataFromAxios);
         
       } catch (error) {
         setIsError(true);

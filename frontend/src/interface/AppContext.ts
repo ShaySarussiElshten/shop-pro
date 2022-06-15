@@ -1,5 +1,7 @@
 import {Person} from "./person"
+import { ProductCart } from "./ProductCart"
 
 export default interface AppContext {
-    data:any
+    cart:ProductCart[]
+    changeCart: (cartArr: ProductCart[]) => void
 }

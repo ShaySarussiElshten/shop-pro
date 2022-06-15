@@ -1,8 +1,11 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useContext, useState } from 'react'
 import { Dialog, Disclosure, Menu, Popover, Tab, Transition } from '@headlessui/react'
 import { MenuIcon, QuestionMarkCircleIcon, SearchIcon, ShoppingBagIcon, XIcon } from '@heroicons/react/outline'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import { Link } from 'react-router-dom'
+import AppContext from '../../interface/AppContext'
+import Context from '../../Context/context'
+
 
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
 const navigation = {
@@ -79,7 +82,12 @@ function classNames(...classes:any[]) {
 }
 
 const Navigation = () => {
+  
 
+  const {cart} = useContext(Context) as AppContext;
+
+
+  console.log("render")
 
   return (
     <div>
@@ -299,7 +307,7 @@ const Navigation = () => {
                           className="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
                           aria-hidden="true"
                         />
-                        <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
+                        <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{cart.length}</span>
                         <span className="sr-only">items in cart, view bag</span>
                       </a>
                     </div>
