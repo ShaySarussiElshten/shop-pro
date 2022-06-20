@@ -2,14 +2,17 @@ import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/outline'
 
-const ModalFrame =({children}:any)=> {
-  const [open, setOpen] = useState(true)
+const ModalFrame =({children,setOpen,open}:any)=> {
+  
 
   const cancelButtonRef = useRef(null)
 
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
+      <Dialog as="div" 
+      className="relative z-10" 
+      initialFocus={cancelButtonRef} 
+      onClose={() => setOpen(false)}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"

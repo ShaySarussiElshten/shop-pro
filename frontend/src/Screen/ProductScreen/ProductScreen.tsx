@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
 import {useParams} from 'react-router-dom'
-import { BACKEND_URL } from '../../constants/urls'
+import { URLS } from '../../enum/urls'
 import useFetch from '../../hooks/useFetch'
 import { Fragment } from 'react'
 import { StarIcon } from '@heroicons/react/solid'
@@ -17,6 +17,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { v4 as uuidv4 } from 'uuid';
 import { ProductCart } from '../../interface/ProductCart'
 import { Product } from '../../interface/Product'
+import ModalAddProduct from '../../Components/ModalAddProduct/ModalAddProduct'
 
   const reviews = {
     average: 4,
@@ -101,13 +102,12 @@ const ProductScreen = () => {
 
    const {data:product,isLoading} = useFetch({
     method: 'get',
-    url:`${BACKEND_URL}/products/${id}`
+    url:`${URLS.BACKEND_URL}/products/${id}`
    })
-
 
    const {img,price,description,name} = product as Product
    const [qauntity,setQantity] = useState(1)
-
+   const [open,setOpen] = useState(false)
    const {cart,changeCart} = useContext(Context) as AppContext;
     
    const addToCart =()=>{
@@ -122,6 +122,8 @@ const ProductScreen = () => {
       } as ProductCart 
        newCart.push(newProductCart)
        changeCart(newCart)
+       localStorage.setItem("cartItems",JSON.stringify(newCart))
+       setOpen(true)
    }
 
 
@@ -367,7 +369,15 @@ const ProductScreen = () => {
      </div>
        </div>
      }
-  </>
+
+     {open && 
+       <ModalAddProduct 
+          setOpen={setOpen} 
+          product={{...product,qauntity}}
+          open={open}
+       />
+     }
+    </>
   )
 }
 

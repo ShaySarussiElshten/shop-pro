@@ -5,6 +5,7 @@ import { ChevronDownIcon } from '@heroicons/react/solid'
 import { Link } from 'react-router-dom'
 import AppContext from '../../interface/AppContext'
 import Context from '../../Context/context'
+import { URLS } from '../../enum/urls'
 
 
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
@@ -302,14 +303,16 @@ const Navigation = () => {
 
                     {/* Cart */}
                     <div className="ml-4 flow-root lg:ml-8">
-                      <a href="#" className="group -m-2 p-2 flex items-center">
+                      <div className="flex">
+                       <Link to={URLS.CHECKOUT}>
                         <ShoppingBagIcon
                           className="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
                           aria-hidden="true"
                         />
+                       </Link>
                         <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{cart.length}</span>
                         <span className="sr-only">items in cart, view bag</span>
-                      </a>
+                        </div>
                     </div>
                   </div>
                 </div>

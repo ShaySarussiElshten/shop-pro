@@ -1,17 +1,12 @@
-import React,{useState} from 'react';
-import logo from './logo.svg';
+import React,{useEffect, useState} from 'react';
 import './App.css';
-import Checkbox from '@mui/material/Checkbox';
 import {BrowserRouter} from 'react-router-dom';
 import Router from './router/router'
-import {Person} from './interface/person';
 import Context from './Context/context'
 import AppContext from './interface/AppContext'
 import Navigation from './Components/Navigation/Navigation';
-import { Product } from './interface/Product';
-import { Console } from 'console';
 import { ProductCart } from './interface/ProductCart';
-
+import ModalAddProduct from './Components/ModalAddProduct/ModalAddProduct'
 
 
 
@@ -28,6 +23,14 @@ function App() {
      changeCart
   };
 
+  useEffect(() => {
+     
+   const cartItemsFromStorage = localStorage.getItem('cartItems')
+   ? JSON.parse(localStorage.getItem('cartItems') || "")
+   : []
+    setCart(cartItemsFromStorage)
+  },[])
+
 
   return (
      <Context.Provider value={storeAction}> 
@@ -36,7 +39,8 @@ function App() {
                <Router /> 
          </BrowserRouter>
      </Context.Provider> 
- 
+
+   // <ModalAddProduct />
   );
 }
 

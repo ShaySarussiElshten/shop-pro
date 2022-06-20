@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import {Product} from '../../interface/Product'
 import axios from 'axios'
-import { BACKEND_URL } from '../../constants/urls'
+import { URLS } from '../../enum/urls'
 import TextField from '@mui/material/TextField';
 import Styled from './HomeScreen.style'
 import useFetch from '../../hooks/useFetch';
@@ -14,7 +14,7 @@ const HomeScreen = () => {
 
   const {data:products,isLoading} = useFetch({
     method: 'get',
-    url:`${BACKEND_URL}/products`
+    url:`${URLS.BACKEND_URL}/products`
   })
 
   
