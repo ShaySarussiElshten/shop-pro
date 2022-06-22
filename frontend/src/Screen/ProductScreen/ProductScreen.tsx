@@ -17,7 +17,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { v4 as uuidv4 } from 'uuid';
 import { ProductCart } from '../../interface/ProductCart'
 import { Product } from '../../interface/Product'
-import ModalAddProduct from '../../Components/ModalAddProduct/ModalAddProduct'
+import ModalAddProduct from './Components/ModalAddProduct/ModalAddProduct'
 
   const reviews = {
     average: 4,
@@ -112,15 +112,26 @@ const ProductScreen = () => {
     
    const addToCart =()=>{
        const newCart = [...cart]
-       const newProductCart = {
-        img,
-        price,
-        name,
-        qauntity,
-        idOfProdact:Number(id),
-        id:uuidv4()
-      } as ProductCart 
-       newCart.push(newProductCart)
+       const product = newCart.find(el => el.idOfProdact === Number(id))
+       if(product){
+          product.qauntity = product.qauntity + qauntity
+          const Qprice = price * product.qauntity
+          product.price = Qprice 
+       }else{
+          const Qprice = price * qauntity
+          const newProductCart = {
+            img,
+            price:Qprice,
+            name,
+            qauntity,
+            idOfProdact:Number(id),
+            idCart:uuidv4()
+          } as ProductCart 
+          newCart.push(newProductCart)
+
+       }
+
+       
        changeCart(newCart)
        localStorage.setItem("cartItems",JSON.stringify(newCart))
        setOpen(true)

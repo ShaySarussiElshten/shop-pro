@@ -6,7 +6,7 @@ import Context from './Context/context'
 import AppContext from './interface/AppContext'
 import Navigation from './Components/Navigation/Navigation';
 import { ProductCart } from './interface/ProductCart';
-import ModalAddProduct from './Components/ModalAddProduct/ModalAddProduct'
+
 
 
 
@@ -40,7 +40,7 @@ function App() {
          </BrowserRouter>
      </Context.Provider> 
 
-   // <ModalAddProduct />
+
   );
 }
 

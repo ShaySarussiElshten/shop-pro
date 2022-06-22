@@ -18,3 +18,8 @@ button[disabled]{
   background-color: #cccccc;
   color: #666666;
 }
+
+input {
+  height:40px;
+  border: 0.2px solid rgb(188, 188, 188);
+}

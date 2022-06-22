@@ -1,10 +1,10 @@
 import React, { useRef } from 'react'
-import ModalFrame from '../ModalFrame/ModalFrame'
+import ModalFrame from '../../../../Components/ModalFrame/ModalFrame'
 import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/outline'
 import { useNavigate } from 'react-router-dom'
-import { URLS } from '../../enum/urls'
+import { URLS } from '../../../../enum/urls'
 
 
 

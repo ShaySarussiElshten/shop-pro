@@ -1,19 +1,15 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Disclosure } from '@headlessui/react'
 import { LockClosedIcon } from '@heroicons/react/solid'
 import AppContext from '../../interface/AppContext'
 import Context from '../../Context/context'
 import { ProductCart } from '../../interface/ProductCart'
-
-const subtotal = '$210.00'
-const discount = { code: 'CHEAPSKATE', amount: '$24.00' }
-const taxes = '$23.68'
-const shipping = '$22.00'
-const total = '$341.68'
-
-
-
-
+import { Link, useNavigate } from 'react-router-dom'
+import { URLS } from '../../enum/urls'
+import { calculateCart } from './CheckoutScreen.utiles'
+import ModalRemoveProduct from './Components/ModalRemoveProduct/ModalRemoveProduct'
+import useInput from '../../hooks/useInput'
+import { VALIDATOR_EMAIL, VALIDATOR_REQUIRE } from '../../validators/validatorsFunctions'
 
 
 
@@ -21,31 +17,78 @@ const total = '$341.68'
 const CheckoutScreen = () => {
   
   const {cart,changeCart} = useContext(Context) as AppContext;
+  const [open,setOpen] = useState(false)
+  const [prodectRemove,setProdectRemove] = useState<ProductCart | null>(null)
+  const navigate = useNavigate()
   
-  console.log(`RENDER CheckoutScreen` ,cart)
+  const {
+    value: emailValue,
+    isValid: emailIsValid,
+    setValue: setEmailValue,
+    isTouched: emailIsTouched,
+    errorMessage: emailErrorMessage,
+  } = useInput([VALIDATOR_EMAIL()]);
+
+  let formIsValid = false;
+
+  if (emailIsValid) {
+     formIsValid = true;
+  }
+
+  const changeOpen = (value: boolean) => {
+      setOpen(value)
+  }
+
+
+  
+  useEffect(() => {
+     if(cart && cart.length ===0){
+         navigate(URLS.HOME)
+     }
+  },[cart])
+
+  
+  const onAccapt =(idOfProdact:number | undefined)=>{ 
+    RemoveFromCart(idOfProdact)
+    changeOpen(false) 
+  }
+  
+
+  const RemoveFromCart = (idOfProdact:number | undefined) =>{
+    const indexToReove = cart.findIndex(el => el.idOfProdact === idOfProdact)
+    const newCart = [...cart]
+    newCart.splice(indexToReove,1)
+    changeCart(newCart)
+    localStorage.setItem("cartItems",JSON.stringify(newCart))
+  }
 
   const renderCart = () =>(
     cart.map((product:ProductCart) => { 
-      const {id,img,price,qauntity,name} = product
+      const {idOfProdact,img,price,qauntity,name} = product
       return(
-      <li key={id} className="flex py-6 space-x-6">
+      <li key={idOfProdact} className="flex py-6 space-x-6">
+        <Link to={`${URLS.PRODUCT}/${idOfProdact}`}>
         <img
           src={img}
           alt={img}
           className="flex-none w-40 h-40 object-center object-cover bg-gray-200 rounded-md"
         />
+        </Link>
         <div className="flex flex-col justify-between space-y-4">
           <div className="text-sm font-medium space-y-1">
+            <Link to={`${URLS.PRODUCT}/${idOfProdact}`}>
             <h3 className="text-gray-900">{name}</h3>
-            <p className="text-gray-900">{price}</p>
-            <p className="text-gray-500">{qauntity}</p>
+            </Link>
+            <p className="text-gray-900">{price} $</p>
+            <p className="text-gray-500"> qt:{qauntity}</p>
           </div>
           <div className="flex space-x-4">
-            <button type="button" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
-              Edit
-            </button>
-            <div className="flex border-l border-gray-300 pl-4">
+            <div className="flex border-gray-300">
               <button
+                onClick={() => {
+                  changeOpen(true)
+                  setProdectRemove(product)
+                }}
                 type="button"
                 className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
               >
@@ -118,36 +161,12 @@ const CheckoutScreen = () => {
                         </button>
                       </div>
                     </form>
-
-                    <dl className="text-sm font-medium text-gray-500 mt-10 space-y-6">
-                      <div className="flex justify-between">
-                        <dt>Subtotal</dt>
-                        <dd className="text-gray-900">{subtotal}</dd>
-                      </div>
-                      <div className="flex justify-between">
-                        <dt className="flex">
-                          Discount
-                          <span className="ml-2 rounded-full bg-gray-200 text-xs text-gray-600 py-0.5 px-2 tracking-wide">
-                            {discount.code}
-                          </span>
-                        </dt>
-                        <dd className="text-gray-900">-{discount.amount}</dd>
-                      </div>
-                      <div className="flex justify-between">
-                        <dt>Taxes</dt>
-                        <dd className="text-gray-900">{taxes}</dd>
-                      </div>
-                      <div className="flex justify-between">
-                        <dt>Shipping</dt>
-                        <dd className="text-gray-900">{shipping}</dd>
-                      </div>
-                    </dl>
                   </>
                 </Disclosure.Panel>
 
                 <p className="flex items-center justify-between text-sm font-medium text-gray-900 border-t border-gray-200 pt-6 mt-6">
                   <span className="text-base">Total</span>
-                  <span className="text-base">{total}</span>
+                  <span className="text-base">{calculateCart(cart)}</span>
                 </p>
               </>
             )}
@@ -185,31 +204,10 @@ const CheckoutScreen = () => {
               </div>
             </form>
 
-            <dl className="text-sm font-medium text-gray-500 mt-10 space-y-6">
-              <div className="flex justify-between">
-                <dt>Subtotal</dt>
-                <dd className="text-gray-900">{subtotal}</dd>
-              </div>
-              <div className="flex justify-between">
-                <dt className="flex">
-                  Discount
-                  <span className="ml-2 rounded-full bg-gray-200 text-xs text-gray-600 py-0.5 px-2 tracking-wide">
-                    {discount.code}
-                  </span>
-                </dt>
-                <dd className="text-gray-900">-{discount.amount}</dd>
-              </div>
-              <div className="flex justify-between">
-                <dt>Taxes</dt>
-                <dd className="text-gray-900">{taxes}</dd>
-              </div>
-              <div className="flex justify-between">
-                <dt>Shipping</dt>
-                <dd className="text-gray-900">{shipping}</dd>
-              </div>
+            <dl>
               <div className="flex items-center justify-between border-t border-gray-200 text-gray-900 pt-6">
                 <dt className="text-base">Total</dt>
-                <dd className="text-base">{total}</dd>
+                <dd className="text-base">{calculateCart(cart)}</dd>
               </div>
             </dl>
           </div>
@@ -253,6 +251,7 @@ const CheckoutScreen = () => {
 
             <form className="mt-6">
               <div className="grid grid-cols-12 gap-y-6 gap-x-4">
+                
                 <div className="col-span-full">
                   <label htmlFor="email-address" className="block text-sm font-medium text-gray-700">
                     Email address
@@ -260,11 +259,16 @@ const CheckoutScreen = () => {
                   <div className="mt-1">
                     <input
                       type="email"
+                      onChange={(e)=> setEmailValue(e.target.value)}
+                      value={emailValue}
                       id="email-address"
                       name="email-address"
                       autoComplete="email"
                       className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     />
+                  </div>
+                  <div className="flex text-red-500 text-base font-extralight">
+                  {(!emailIsValid && emailIsTouched) && emailErrorMessage}
                   </div>
                 </div>
 
@@ -405,10 +409,11 @@ const CheckoutScreen = () => {
               </div>
 
               <button
+                disabled={!formIsValid}
                 type="submit"
-                className="w-full mt-6 bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="w-full mt-6 bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                Pay {total}
+                Pay {calculateCart(cart)}
               </button>
 
               <p className="flex justify-center text-sm font-medium text-gray-500 mt-6">
@@ -419,6 +424,16 @@ const CheckoutScreen = () => {
           </div>
         </section>
       </main>
+      {
+        open && 
+        <ModalRemoveProduct 
+            changeOpen={changeOpen}
+            prodectRemove={prodectRemove}
+            open={open}
+            onAccapt={onAccapt}
+        />
+
+      }
     </>
   )
 }

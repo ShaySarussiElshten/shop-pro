@@ -1,6 +1,6 @@
 export type  ProductCart = {
     name: string
-    id:string
+    idCart:string
     idOfProdact:number
     img:string
     price:number

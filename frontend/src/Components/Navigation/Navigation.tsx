@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import AppContext from '../../interface/AppContext'
 import Context from '../../Context/context'
 import { URLS } from '../../enum/urls'
+import Tooltip from '@mui/material/Tooltip';
 
 
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
@@ -304,12 +305,22 @@ const Navigation = () => {
                     {/* Cart */}
                     <div className="ml-4 flow-root lg:ml-8">
                       <div className="flex">
-                       <Link to={URLS.CHECKOUT}>
-                        <ShoppingBagIcon
-                          className="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
-                          aria-hidden="true"
-                        />
-                       </Link>
+                        {
+                             (cart.length > 0) ? 
+                             <Link to={URLS.CHECKOUT}>
+                             <ShoppingBagIcon
+                               className="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
+                               aria-hidden="true"
+                             />
+                            </Link> :
+                            <Tooltip title="no pruducts on cart">
+                                <ShoppingBagIcon
+                                  className="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
+                                  aria-hidden="true"
+                                />
+                            </Tooltip>
+                        }
+                       
                         <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{cart.length}</span>
                         <span className="sr-only">items in cart, view bag</span>
                         </div>
