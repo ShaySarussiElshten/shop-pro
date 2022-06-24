@@ -9,6 +9,8 @@
     "clean": "rm -rf dist",
     "ts-compile": "tsc -w",
     "ts-dev": "concurrently \"npm run clean\" \"npm run ts-compile\"",
+    "data:import": "ts-node src/seeder.ts",
+    "data:destroy": "ts-node src/seeder.ts -d",
     "start": "nodemon src/app.ts"
   },
   "author": "",

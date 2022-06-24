@@ -1,33 +1,5 @@
 import mongoose from 'mongoose'
 
-const reviewSchema = new mongoose.Schema(
-  {
-    name: { type: String, required: true },
-    rating: { type: Number, required: true },
-    comment: { type: String, required: true },
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: 'User',
-    },
-  },
-  {
-    timestamps: true,
-  }
-)
-
-
-const versionSchema = new mongoose.Schema(
-  {
-    name: { type: String, required: true },
-    description: { type: String, required: true },
-    link: { type: String, required: true }
-  },
-  {
-    timestamps: true,
-  }
-)
-
 
 
 const productSchema = new mongoose.Schema(
@@ -44,11 +16,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    musicPlayer: {
-      type: String,
-      default: '',
-    },
-    image: {
+    img: {
       type: String,
       default: 'https://thumbs.dreamstime.com/b/new-product-stamp-round-grunge-sign-label-181923461.jpg',
     },
@@ -56,38 +24,9 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    category:{
+    catagory:{
       type: String,
       required: true,
-    },
-    contery:{
-      type: String,
-      required: true,
-    },  
-    typeOfStyle: {
-      type: String,
-      required: true,
-    },
-    reviews: [reviewSchema],
-    rating: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    poplar: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    numReviews: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    years: {
-      type: Number,
-      required: true,
-      default: 0,
     },
     price: {
       type: Number,
@@ -97,8 +36,7 @@ const productSchema = new mongoose.Schema(
     date: { 
       type: String, 
       default: Date 
-    },
-    versions:[versionSchema]
+    }
   },
   {
     timestamps: true,
