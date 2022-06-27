@@ -8,13 +8,11 @@ const users_1 = __importDefault(require("./data/users"));
 const products_1 = __importDefault(require("./data/products"));
 const userModel_1 = __importDefault(require("./models/userModel"));
 const productModel_1 = __importDefault(require("./models/productModel"));
-const orderModel_1 = __importDefault(require("./models/orderModel"));
 const db_1 = __importDefault(require("./config/db"));
 dotenv_1.default.config();
 (0, db_1.default)();
 const importData = async () => {
     try {
-        await orderModel_1.default.deleteMany();
         await productModel_1.default.deleteMany();
         await userModel_1.default.deleteMany();
         const createdUsers = await userModel_1.default.insertMany(users_1.default);
@@ -33,7 +31,6 @@ const importData = async () => {
 };
 const destroyData = async () => {
     try {
-        await orderModel_1.default.deleteMany();
         await productModel_1.default.deleteMany();
         await userModel_1.default.deleteMany();
         console.log('Data Destroyed!');
