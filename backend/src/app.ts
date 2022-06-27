@@ -3,18 +3,22 @@ import path from 'path'
 import dotenv from 'dotenv'
 import connectDB from './config/db'
 import cors from 'cors'
+import userRoutes from './routes/userRoutes'
+import productRoutes from './routes/productRoutes'
 
-const corsOptions = {
-  exposedHeaders: 'X-Total-Count',
-};
 
 
 dotenv.config()
 connectDB()
 
 const app = express()
+
 app.use(cors())
-app.use(cors(corsOptions));
+app.use(express.json())
+
+
+app.use('/api/products', productRoutes)
+app.use('/api/users', userRoutes)
 
 
 const PORT = process.env.PORT || 5000
