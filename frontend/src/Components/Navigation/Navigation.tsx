@@ -5,7 +5,7 @@ import { ChevronDownIcon } from '@heroicons/react/solid'
 import { Link } from 'react-router-dom'
 import AppContext from '../../interface/AppContext'
 import Context from '../../Context/context'
-import { URLS } from '../../enum/urls'
+import { ROUTES } from '../../enum/urls'
 import Tooltip from '@mui/material/Tooltip';
 
 
@@ -138,9 +138,9 @@ const Navigation = () => {
               </form>
 
               <div className="flex items-center space-x-6">
-                <a href="#" className="text-sm font-medium text-white hover:text-gray-100">
+                <Link to={`${ROUTES.SIGN_IN}`}className="text-sm font-medium text-white hover:text-gray-100">
                   Sign in
-                </a>
+                </Link>
                 <a href="#" className="text-sm font-medium text-white hover:text-gray-100">
                   Create an account
                 </a>
@@ -154,7 +154,7 @@ const Navigation = () => {
               <div className="h-16 flex items-center justify-between">
                 {/* Logo (lg+) */}
                 <div className="hidden lg:flex-1 lg:flex lg:items-center">
-                  <Link to="/home">
+                  <Link to={ROUTES.HOME}>
                     <span className="sr-only">Workflow</span>
                     <img
                       className="h-8 w-auto"
@@ -307,7 +307,7 @@ const Navigation = () => {
                       <div className="flex">
                         {
                              (cart.length > 0) ? 
-                             <Link to={URLS.CHECKOUT}>
+                             <Link to={ROUTES.CHECKOUT}>
                              <ShoppingBagIcon
                                className="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
                                aria-hidden="true"

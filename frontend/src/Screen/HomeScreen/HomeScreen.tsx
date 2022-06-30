@@ -1,20 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react'
 import {Product} from '../../interface/Product'
 import axios from 'axios'
-import { URLS } from '../../enum/urls'
+import { ROUTES, URLS } from '../../enum/urls'
 import TextField from '@mui/material/TextField';
 import Styled from './HomeScreen.style'
 import useFetch from '../../hooks/useFetch';
 import Spinner from '../../Components/Form/Spinner/Spinner';
 import Navigation from '../../Components/Navigation/Navigation';
 import { Link } from 'react-router-dom';
+import { METHODS } from '../../enum/methos';
 
 const HomeScreen = () => {
   
 
   const {data:products,isLoading} = useFetch({
-    method: 'get',
-    url:`${URLS.BACKEND_URL}/products`
+    method: METHODS.GET,
+    url:`${URLS.BACKEND_URL}/${URLS.PRODUCTS}`
   })
 
   
@@ -23,7 +24,7 @@ const HomeScreen = () => {
           const {id,name,img,description,price} =product
 
           return (
-            <Link to={`/product/${id}`} key={id}>
+            <Link to={`${ROUTES.PRODUCT}/${id}`} key={id}>
               <Styled.CardContainer>
                     <Styled.ImgWaraaper>
                         <Styled.MainImg src={img} />

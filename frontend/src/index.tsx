@@ -5,6 +5,9 @@ import App from './App';
 import './styles/output.css';
 import reportWebVitals from './reportWebVitals';
 
+
+console.log(process.env.REACT_APP_BASE_URL)
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

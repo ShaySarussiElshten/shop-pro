@@ -5,26 +5,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUser = exports.updateUser = exports.getUserById = exports.getUsers = exports.getUserProfile = exports.registerUser = exports.authUser = void 0;
 const express_async_handler_1 = __importDefault(require("express-async-handler"));
-const generateToken_1 = __importDefault(require("../utils/generateToken"));
+const userService_1 = __importDefault(require("../services/userService"));
 const userModel_1 = __importDefault(require("../models/userModel"));
 // @desc    Auth user & get token
 // @route   POST /api/users/login
 // @access  Public
 const authUser = (0, express_async_handler_1.default)(async (req, res) => {
     const { email, password } = req.body;
-    const user = await userModel_1.default.findOne({ email });
-    if (user && (await user.matchPassword(password))) {
-        res.json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            isAdmin: user.isAdmin,
-            token: (0, generateToken_1.default)(user._id),
-        });
+    try {
+        const user = await userService_1.default.authUser(email, password);
+        res.json(user);
     }
-    else {
-        res.status(401);
-        throw new Error('Invalid email or password');
+    catch (err) {
+        res.status(400);
+        throw new Error(err.message);
     }
 });
 exports.authUser = authUser;
@@ -33,28 +27,13 @@ exports.authUser = authUser;
 // @access  Public
 const registerUser = (0, express_async_handler_1.default)(async (req, res) => {
     const { name, email, password } = req.body;
-    const userExists = await userModel_1.default.findOne({ email });
-    if (userExists) {
-        res.status(400);
-        throw new Error('User already exists');
+    try {
+        const user = await userService_1.default.registerUser(name, email, password);
+        res.json(user);
     }
-    const user = await userModel_1.default.create({
-        name,
-        email,
-        password,
-    });
-    if (user) {
-        res.status(201).json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            isAdmin: user.isAdmin,
-            token: (0, generateToken_1.default)(user._id),
-        });
-    }
-    else {
+    catch (err) {
         res.status(400);
-        throw new Error('Invalid user data');
+        throw new Error(err.message);
     }
 });
 exports.registerUser = registerUser;

@@ -18,6 +18,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ProductCart } from '../../interface/ProductCart'
 import { Product } from '../../interface/Product'
 import ModalAddProduct from './Components/ModalAddProduct/ModalAddProduct'
+import { METHODS } from '../../enum/methos'
 
   const reviews = {
     average: 4,
@@ -101,8 +102,8 @@ const ProductScreen = () => {
    const {id} = useParams()
 
    const {data:product,isLoading} = useFetch({
-    method: 'get',
-    url:`${URLS.BACKEND_URL}/products/${id}`
+    method: METHODS.GET,
+    url:`${URLS.BACKEND_URL}/${URLS.PRODUCTS}/${id}`
    })
 
    const {img,price,description,name} = product as Product

@@ -4,7 +4,6 @@ import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { CheckIcon, ExclamationIcon } from '@heroicons/react/outline'
 import { useNavigate } from 'react-router-dom'
-import { URLS } from '../../../../enum/urls'
 import { ProductCart } from '../../../../interface/ProductCart'
 
 

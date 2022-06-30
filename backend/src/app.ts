@@ -5,6 +5,7 @@ import connectDB from './config/db'
 import cors from 'cors'
 import userRoutes from './routes/userRoutes'
 import productRoutes from './routes/productRoutes'
+import { errorHandler, notFoundRoutes } from './middleware/errorMiddleware'
 
 
 
@@ -19,6 +20,9 @@ app.use(express.json())
 
 app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
+
+app.use(notFoundRoutes)
+app.use(errorHandler)
 
 
 const PORT = process.env.PORT || 5000

@@ -5,7 +5,7 @@ import AppContext from '../../interface/AppContext'
 import Context from '../../Context/context'
 import { ProductCart } from '../../interface/ProductCart'
 import { Link, useNavigate } from 'react-router-dom'
-import { URLS } from '../../enum/urls'
+import { ROUTES, URLS } from '../../enum/urls'
 import { calculateCart } from './CheckoutScreen.utiles'
 import ModalRemoveProduct from './Components/ModalRemoveProduct/ModalRemoveProduct'
 import useInput from '../../hooks/useInput'
@@ -43,7 +43,7 @@ const CheckoutScreen = () => {
   
   useEffect(() => {
      if(cart && cart.length ===0){
-         navigate(URLS.HOME)
+         navigate(ROUTES.HOME)
      }
   },[cart])
 
@@ -67,7 +67,7 @@ const CheckoutScreen = () => {
       const {idOfProdact,img,price,qauntity,name} = product
       return(
       <li key={idOfProdact} className="flex py-6 space-x-6">
-        <Link to={`${URLS.PRODUCT}/${idOfProdact}`}>
+        <Link to={`${ROUTES.PRODUCT}/${idOfProdact}`}>
         <img
           src={img}
           alt={img}
@@ -76,7 +76,7 @@ const CheckoutScreen = () => {
         </Link>
         <div className="flex flex-col justify-between space-y-4">
           <div className="text-sm font-medium space-y-1">
-            <Link to={`${URLS.PRODUCT}/${idOfProdact}`}>
+            <Link to={`${ROUTES.PRODUCT}/${idOfProdact}`}>
             <h3 className="text-gray-900">{name}</h3>
             </Link>
             <p className="text-gray-900">{price} $</p>
