@@ -1,10 +1,14 @@
 import axios from 'axios';
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
+import Context from '../../Context/context';
+import { LOCAL_STORAGE } from '../../enum/localStorage';
 import { METHODS } from '../../enum/methos';
 import { ROUTES, URLS } from '../../enum/urls';
 import useFetch from '../../hooks/useFetch';
 import useInput from '../../hooks/useInput';
+import AppContext from '../../interface/AppContext';
+import { setLocalStaorageAndUpdateState } from '../../utils/utils';
 import { 
     VALIDATOR_EMAIL,
     VALIDATOR_MINLENGTH
@@ -14,6 +18,7 @@ import {
 
 
 const SignInScreen = () => {
+  const {changeJwtToken} = useContext(Context) as AppContext;
   const navigate = useNavigate()
   const {
         value: emailValue,
@@ -40,14 +45,17 @@ const SignInScreen = () => {
 
 
   const SignIn = async () =>{
-    
-    const {data} = await axios.post(
-        `/${URLS.LOG_IN}`,
-        {email:emailValue,password:passwordValue}
-    )
-
-    console.log(data)
-    // navigate(ROUTES.HOME)
+    try {
+        const {data} = await axios.post(
+            `${URLS.BACKEND_URL}/${URLS.LOG_IN}`,
+            {email:emailValue,password:passwordValue}
+        )
+        
+        setLocalStaorageAndUpdateState(LOCAL_STORAGE.TOKEN,data.token,changeJwtToken) 
+        navigate(ROUTES.HOME)
+    }catch(err:any){
+        console.log(err)
+    }
 
   }
 
@@ -70,7 +78,7 @@ const SignInScreen = () => {
 
             <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
             <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                <form className="space-y-6" action="#" method="POST">
+                
                 <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                     Email address
@@ -141,7 +149,7 @@ const SignInScreen = () => {
                     Sign in
                     </button>
                 </div>
-                </form>
+             
 
                 <div className="mt-6">
                 <div className="relative">

@@ -6,6 +6,8 @@ import Context from './Context/context'
 import AppContext from './interface/AppContext'
 import Navigation from './Components/Navigation/Navigation';
 import { ProductCart } from './interface/ProductCart';
+import { LOCAL_STORAGE } from './enum/localStorage';
+import { getFromStaorageAndUpdateState } from './utils/utils';
 
 
 
@@ -13,22 +15,34 @@ import { ProductCart } from './interface/ProductCart';
 function App() {
 
   const [cart,setCart] = useState<ProductCart[]>([])
+  const [jwtToken,setJwtToken] = useState<string | null>(null)
 
   const changeCart =(cartArr : ProductCart[])=>{
      setCart(cartArr)
   }
 
+  const changeJwtToken =(jwtToken: string) =>{
+      setJwtToken(jwtToken)
+  }
+
   const storeAction: AppContext = {
      cart,
-     changeCart
+     changeCart,
+     jwtToken,
+     changeJwtToken
   };
 
   useEffect(() => {
      
-   const cartItemsFromStorage = localStorage.getItem('cartItems')
-   ? JSON.parse(localStorage.getItem('cartItems') || "")
-   : []
-    setCart(cartItemsFromStorage)
+      getFromStaorageAndUpdateState(
+      LOCAL_STORAGE.CART_ITEMS,
+      changeCart,
+      [])
+
+      getFromStaorageAndUpdateState(
+      LOCAL_STORAGE.TOKEN,
+      changeJwtToken,
+      null)
   },[])
 
 
