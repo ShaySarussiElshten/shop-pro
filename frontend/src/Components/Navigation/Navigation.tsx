@@ -2,11 +2,13 @@ import { Fragment, useContext, useState } from 'react'
 import { Dialog, Disclosure, Menu, Popover, Tab, Transition } from '@headlessui/react'
 import { MenuIcon, QuestionMarkCircleIcon, SearchIcon, ShoppingBagIcon, XIcon } from '@heroicons/react/outline'
 import { ChevronDownIcon } from '@heroicons/react/solid'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import AppContext from '../../interface/AppContext'
 import Context from '../../Context/context'
 import { ROUTES } from '../../enum/urls'
 import Tooltip from '@mui/material/Tooltip';
+import { LOCAL_STORAGE } from '../../enum/localStorage'
+import { removeFromStorageAndUpdateState } from '../../utils/utils'
 
 
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
@@ -84,12 +86,22 @@ function classNames(...classes:any[]) {
 }
 
 const Navigation = () => {
+    
+  const navigate = useNavigate()
+
+
   
-
-  const {cart} = useContext(Context) as AppContext;
-
-
-  console.log("render")
+  const {cart,jwtToken,changeJwtToken} = useContext(Context) as AppContext;
+  
+  
+  const logOut =()=>{
+    removeFromStorageAndUpdateState(
+      LOCAL_STORAGE.TOKEN,
+      changeJwtToken,
+      null
+      )
+    navigate(ROUTES.HOME)
+  }
 
   return (
     <div>
@@ -138,12 +150,23 @@ const Navigation = () => {
               </form>
 
               <div className="flex items-center space-x-6">
-                <Link to={`${ROUTES.SIGN_IN}`}className="text-sm font-medium text-white hover:text-gray-100">
+                {!jwtToken ? 
+                <>
+                  <Link to={`${ROUTES.SIGN_IN}`}className="text-sm font-medium text-white hover:text-gray-100">
                   Sign in
-                </Link>
-                <a href="#" className="text-sm font-medium text-white hover:text-gray-100">
-                  Create an account
-                </a>
+                  </Link>
+                  <a href="#" className="text-sm font-medium text-white hover:text-gray-100">
+                    Create an account
+                  </a>
+                </> : 
+                  <span 
+                     className="text-sm font-medium text-white hover:text-gray-100 cursor-pointer"
+                     onClick={logOut}
+                  >
+                      Sign out
+                  </span>
+                }
+                
               </div>
             </div>
           </div>

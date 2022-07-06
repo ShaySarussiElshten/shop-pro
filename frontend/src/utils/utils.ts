@@ -1,8 +1,9 @@
 
 
 export const getFromStaorageAndUpdateState = (
-    nameInLocalStorage: string, 
-    setState:any, 
+    nameInLocalStorage: string,
+    //any function 
+    setState:(...args: any) => any, 
     initialState:any) =>{
     const itemsFromStorage = localStorage.getItem(nameInLocalStorage)
     ? JSON.parse(localStorage.getItem(nameInLocalStorage) || "")
@@ -17,4 +18,14 @@ export const setLocalStaorageAndUpdateState = (
     setState:any) =>{
     localStorage.setItem(nameInLocalStorage,JSON.stringify(item))
     setState(item) 
+}
+
+
+export const removeFromStorageAndUpdateState = (
+    nameInLocalStorage:string,
+    setState:(...args: any) => any,
+    initialState:any
+    ) =>{
+    localStorage.removeItem(nameInLocalStorage)
+    setState(initialState)  
 }

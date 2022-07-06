@@ -8,7 +8,7 @@ import Navigation from './Components/Navigation/Navigation';
 import { ProductCart } from './interface/ProductCart';
 import { LOCAL_STORAGE } from './enum/localStorage';
 import { getFromStaorageAndUpdateState } from './utils/utils';
-
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -16,6 +16,7 @@ function App() {
 
   const [cart,setCart] = useState<ProductCart[]>([])
   const [jwtToken,setJwtToken] = useState<string | null>(null)
+
 
   const changeCart =(cartArr : ProductCart[])=>{
      setCart(cartArr)
