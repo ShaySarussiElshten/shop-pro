@@ -5,10 +5,14 @@ export const getFromStaorageAndUpdateState = (
     //any function 
     setState:(...args: any) => any, 
     initialState:any) =>{
+    try {
     const itemsFromStorage = localStorage.getItem(nameInLocalStorage)
     ? JSON.parse(localStorage.getItem(nameInLocalStorage) || "")
     : initialState
     setState(itemsFromStorage) 
+    }catch (err) {
+        console.log('error', err);
+    }
 }
 
 

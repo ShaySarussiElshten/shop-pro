@@ -11,7 +11,7 @@ type ModalRemoveProductProps = {
   changeOpen: (value: boolean) => void
   open:boolean
   prodectRemove: ProductCart | null
-  onAccapt: (idOfProdact:number | undefined) => void
+  onAccapt: (idOfProdact:string | undefined) => void
 }
 
 

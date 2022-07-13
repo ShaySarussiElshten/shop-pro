@@ -10,6 +10,9 @@ import { calculateCart } from './CheckoutScreen.utiles'
 import ModalRemoveProduct from './Components/ModalRemoveProduct/ModalRemoveProduct'
 import useInput from '../../hooks/useInput'
 import { VALIDATOR_EMAIL, VALIDATOR_REQUIRE } from '../../validators/validatorsFunctions'
+import axios from 'axios'
+import { LOCAL_STORAGE } from '../../enum/localStorage'
+import { setLocalStaorageAndUpdateState } from '../../utils/utils'
 
 
 
@@ -48,13 +51,46 @@ const CheckoutScreen = () => {
   },[cart])
 
   
-  const onAccapt =(idOfProdact:number | undefined)=>{ 
+  const onAccapt =(idOfProdact:string | undefined)=>{ 
     RemoveFromCart(idOfProdact)
     changeOpen(false) 
   }
+
+  const makeCheckout = async () =>{
+    try {
+      
+      const token = localStorage.getItem(LOCAL_STORAGE.TOKEN)
+      ? JSON.parse(localStorage.getItem(LOCAL_STORAGE.TOKEN) || "")
+      : ''
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+
+      const {data} = await axios.post(
+          `${URLS.BACKEND_URL}/${URLS.CREATE_ORDERS}`,
+          {orderItems:cart,
+           orderInfo: {email:emailValue},
+           totalPrice: calculateCart(cart)
+          },
+          config
+      )
+      setLocalStaorageAndUpdateState(LOCAL_STORAGE.CART_ITEMS,[],changeCart)
+      navigate(ROUTES.MY_ORDER)    
+      
+      }catch(err:any){
+          console.log(err)
+          // toast(errorMsg)
+          // setEmailValue('')
+          // setPasswordValue('')
+      }
+  }
   
 
-  const RemoveFromCart = (idOfProdact:number | undefined) =>{
+  const RemoveFromCart = (idOfProdact:string | undefined) =>{
     const indexToReove = cart.findIndex(el => el.idOfProdact === idOfProdact)
     const newCart = [...cart]
     newCart.splice(indexToReove,1)
@@ -249,7 +285,7 @@ const CheckoutScreen = () => {
               </div>
             </div>
 
-            <form className="mt-6">
+          
               <div className="grid grid-cols-12 gap-y-6 gap-x-4">
                 
                 <div className="col-span-full">
@@ -410,7 +446,7 @@ const CheckoutScreen = () => {
 
               <button
                 disabled={!formIsValid}
-                type="submit"
+                onClick={makeCheckout}
                 className="w-full mt-6 bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Pay {calculateCart(cart)}
@@ -420,7 +456,7 @@ const CheckoutScreen = () => {
                 <LockClosedIcon className="w-5 h-5 text-gray-400 mr-1.5" aria-hidden="true" />
                 Payment details stored in plain text
               </p>
-            </form>
+            
           </div>
         </section>
       </main>

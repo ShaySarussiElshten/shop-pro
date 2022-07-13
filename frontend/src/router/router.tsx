@@ -3,6 +3,7 @@ import {Routes,Route,Navigate} from 'react-router-dom'
 import { ROUTES } from '../enum/urls'
 import CheckoutScreen from '../Screen/CheckoutScreen/CheckoutScreen'
 import HomeScreen from '../Screen/HomeScreen/HomeScreen'
+import MyOrderScreen from '../Screen/MyOrderScreen/MyOrderScreen'
 import ProductScreen from '../Screen/ProductScreen/ProductScreen'
 import SignInScreen from '../Screen/SignInScreen/SignInScreen'
 
@@ -18,6 +19,7 @@ const Router = () => {
           <Route path={`${ROUTES.PRODUCT}/:id`} element={<ProductScreen />} />
           <Route path={ROUTES.CHECKOUT} element={<CheckoutScreen />} />
           <Route path={ROUTES.SIGN_IN} element={< SignInScreen/>} />
+          <Route path={ROUTES.MY_ORDER} element={< MyOrderScreen/>} />
           <Route path={"*"}  element={<Navigate to={ROUTES.HOME} />} />
     </Routes>
   )

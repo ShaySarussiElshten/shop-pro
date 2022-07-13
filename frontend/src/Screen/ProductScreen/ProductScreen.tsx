@@ -113,7 +113,7 @@ const ProductScreen = () => {
     
    const addToCart =()=>{
        const newCart = [...cart]
-       const product = newCart.find(el => el.idOfProdact === Number(id))
+       const product = newCart.find(el => el.idOfProdact === id)
        if(product){
           product.qauntity = product.qauntity + qauntity
           const Qprice = price * product.qauntity
@@ -125,8 +125,7 @@ const ProductScreen = () => {
             price:Qprice,
             name,
             qauntity,
-            idOfProdact:Number(id),
-            idCart:uuidv4()
+            idOfProdact:id,
           } as ProductCart 
           newCart.push(newProductCart)
 
