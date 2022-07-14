@@ -6,6 +6,7 @@ import HomeScreen from '../Screen/HomeScreen/HomeScreen'
 import MyOrderScreen from '../Screen/MyOrderScreen/MyOrderScreen'
 import ProductScreen from '../Screen/ProductScreen/ProductScreen'
 import SignInScreen from '../Screen/SignInScreen/SignInScreen'
+import ThankYouScreen from '../Screen/ThankYouScreen/ThankYouScreen'
 
 
 
@@ -20,6 +21,7 @@ const Router = () => {
           <Route path={ROUTES.CHECKOUT} element={<CheckoutScreen />} />
           <Route path={ROUTES.SIGN_IN} element={< SignInScreen/>} />
           <Route path={ROUTES.MY_ORDER} element={< MyOrderScreen/>} />
+          <Route path={ROUTES.THANKS_PAGE} element={< ThankYouScreen/>} />
           <Route path={"*"}  element={<Navigate to={ROUTES.HOME} />} />
     </Routes>
   )

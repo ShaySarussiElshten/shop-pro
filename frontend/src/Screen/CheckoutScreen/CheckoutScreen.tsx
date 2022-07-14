@@ -79,7 +79,7 @@ const CheckoutScreen = () => {
           config
       )
       setLocalStaorageAndUpdateState(LOCAL_STORAGE.CART_ITEMS,[],changeCart)
-      navigate(ROUTES.MY_ORDER)    
+      navigate(ROUTES.THANKS_PAGE)    
       
       }catch(err:any){
           console.log(err)

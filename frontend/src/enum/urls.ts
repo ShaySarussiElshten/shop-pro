@@ -3,7 +3,8 @@ export enum ROUTES {
     CHECKOUT = '/checkout',
     PRODUCT = "/product",
     SIGN_IN = "/signin",
-    MY_ORDER = "/myorder"
+    MY_ORDER = "/myorder",
+    THANKS_PAGE = "/thx",
 }
 
 
